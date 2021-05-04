@@ -32,7 +32,7 @@ public class GridMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.W) && !isMoving && moveUp)
+        if (Input.GetKey(KeyCode.UpArrow) && !isMoving && moveUp)
         {
             if (detection.tempBoxUp == null)
             {
@@ -54,7 +54,7 @@ public class GridMovement : MonoBehaviour
 
         }
             
-        if (Input.GetKey(KeyCode.A) && !isMoving && moveLeft)
+        if (Input.GetKey(KeyCode.LeftArrow) && !isMoving && moveLeft)
         {
             if (detection.tempBoxLeft == null)
             {
@@ -75,7 +75,7 @@ public class GridMovement : MonoBehaviour
             }
         }
             
-        if (Input.GetKey(KeyCode.S) && !isMoving && moveDown)
+        if (Input.GetKey(KeyCode.DownArrow) && !isMoving && moveDown)
         {
             if(detection.tempBoxDown == null)
             {
@@ -97,7 +97,7 @@ public class GridMovement : MonoBehaviour
             
         }
             
-        if (Input.GetKey(KeyCode.D) && !isMoving && moveRight)
+        if (Input.GetKey(KeyCode.RightArrow) && !isMoving && moveRight)
         {
             if (detection.tempBoxRight == null)
             {
