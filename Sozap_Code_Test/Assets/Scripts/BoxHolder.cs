@@ -30,7 +30,6 @@ public class BoxHolder : MonoBehaviour
     }
     void Start()
     {
-        //StartCoroutine(DetectionCheck());
         stopCheck = true;
     }
 
@@ -38,65 +37,10 @@ public class BoxHolder : MonoBehaviour
     {
        
             CheckForBox();
-        
-            
+
     }
 
-    IEnumerator DetectionCheck()
-    {
-
-        while (true)
-        {
-            if (!occupied)
-            {
-                yield return new WaitForSeconds(timeBeforeCheck);
-
-
-                foreach (var box3 in mapManager.boxes)
-                {
-
-                    if (Mathf.Abs(Vector3.Distance(transform.position, box3.transform.position)) < distanceMargin)
-                    {
-                        Debug.Log("Works");
-                        box = box3;
-
-                        occupied = true;
-
-                        if (!occupied)
-                        {
-                            victoryCondition.AddBox();
-                        }
-                        
-                    }
-                    else
-                    {
-                        counter++;
-                        //occupied = false;
-                        Debug.Log(counter);
-
-                    }
-                }
-
-
-
-
-                //if (counter == tileDetectors.Length * mapManager.boxes.Length)
-                //{
-                //    box = null;
-                //    used_tileDector = null;
-                //    occupied = false;
-                //    victoryCondition.RemoveBox();
-
-                //}
-
-                counter = 0;
-            }
-        }
-        
-
-                
-        
-    }
+   
         
     public void CheckForBox()
     {
@@ -106,13 +50,13 @@ public class BoxHolder : MonoBehaviour
 
             if (Mathf.Abs(Vector3.Distance(transform.position, box3.transform.position)) < distanceMargin)
             {
-                Debug.Log("Works");
                 box = box3;
 
                 
                 if (!occupied)
                 {
                     victoryCondition.AddBox();
+                    box.GetComponent<SpriteRenderer>().color = Color.green;
                     occupied = true;
                     stopCheck = false;
                 }
@@ -120,9 +64,6 @@ public class BoxHolder : MonoBehaviour
             else
             {
                 counter++;
-                
-                Debug.Log(counter);
-
             }
         }
 
@@ -131,6 +72,11 @@ public class BoxHolder : MonoBehaviour
 
         if (counter == holders.Length * mapManager.boxes.Length)
         {
+            if(box != null)
+            {
+                box.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            
             box = null;
             used_tileDector = null;
             

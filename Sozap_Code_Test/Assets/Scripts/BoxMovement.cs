@@ -8,6 +8,7 @@ public class BoxMovement : MonoBehaviour
     
     private MapManager mapManager;
     private GridMovement playerObj;
+    public AudioSource audioSource;
 
     public DetectionBox boxDetection;
 
@@ -27,16 +28,10 @@ public class BoxMovement : MonoBehaviour
 
     private void Awake()
     {
-        mapManager = FindObjectOfType<MapManager>(); 
+        audioSource = GetComponent<AudioSource>();
+        mapManager = FindObjectOfType<MapManager>();
         
-    }
-
-
-    void Update()
-    {
-
-
-
+        
     }
 
 
@@ -49,8 +44,8 @@ public class BoxMovement : MonoBehaviour
 
         ogPos = transform.position;
         targetPos = ogPos + direction;
-
-        while(elapsedTime < timeToMove)
+        audioSource.Play();
+        while (elapsedTime < timeToMove)
         {
             transform.position = Vector3.Lerp(ogPos, targetPos, (elapsedTime / timeToMove));
             elapsedTime += Time.deltaTime;
@@ -58,6 +53,7 @@ public class BoxMovement : MonoBehaviour
             yield return null;
         }
 
+        
         transform.position = targetPos;
 
         isMoving = false;

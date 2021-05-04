@@ -6,39 +6,111 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public Dropdown dropDown;
+    private AudioSource audioSource;
     private DataManager dataManager;
-    public string text;
+    public Dropdown dropDown;
+    public Slider volumeSlider;
+    public Text amountPlayedText;
+    public Text levelText;
+    public Text bestTimeText;
 
-    public Button playButton;
+    private int levelSelected;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         dataManager = FindObjectOfType<DataManager>();
-        
-
         dataManager.Load();
+        SetSavedTime();
+        ShowLevelStats();
 
-        dropDown.options[0].text = "Level 1: " + dataManager.data.levelOneTime;
-        dropDown.options[1].text = "Level 2: " + dataManager.data.levelOneTime;
-        dropDown.options[2].text = "Level 3: " + dataManager.data.levelOneTime;
-        dropDown.options[3].text = "Level 4: " + dataManager.data.levelOneTime;
+        volumeSlider.value = dataManager.data.soundVolume;
 
+        dropDown.onValueChanged.AddListener(delegate
+        {
+            DropDownValueChanged(dropDown);
+        });
 
-
+        volumeSlider.onValueChanged.AddListener(delegate
+        {
+            SoundVolumeChanged(volumeSlider);
+        });
 
 
     }
 
-    private void Update()
+    public void SoundVolumeChanged(Slider sender)
     {
-       
+        dataManager.data.soundVolume = sender.value;
+        audioSource.volume = sender.value;
+        
+    }
+    public void DropDownValueChanged(Dropdown sender)
+    {
+        Debug.Log("Level selected:" + sender.value);
+        levelSelected = sender.value;
+        ShowLevelStats();
+    }
+
+    public void SetSavedTime()
+    {
+        
+        
+    }
+
+    public void ShowLevelStats()
+    {
+        if (levelSelected == 0)
+        {
+            levelText.text = "Level: 1";
+
+            amountPlayedText.text = dataManager.data.playedLeveOne.ToString();
+
+            bestTimeText.text = dataManager.data.levelOneTime;
+        }
+        if (levelSelected == 1)
+        {
+            levelText.text = "Level: 2";
+            amountPlayedText.text = dataManager.data.playedLevelTwo.ToString();
+            bestTimeText.text = dataManager.data.levelTwoTime;
+        }
+        if (levelSelected == 2)
+        {
+            levelText.text = "Level: 3";
+            amountPlayedText.text = dataManager.data.playedLevelThree.ToString();
+            bestTimeText.text = dataManager.data.levelThreeTime;
+        }
+        if (levelSelected == 3)
+        {
+            levelText.text = "Level: 4";
+            amountPlayedText.text = dataManager.data.playedLevelFour.ToString();
+            bestTimeText.text = dataManager.data.levelFourTime;
+        }
     }
 
     public void PlayLevel()
     {
-        SceneManager.LoadScene(1);
+        dataManager.Save();
+        if (levelSelected == 0)
+        {
+            SceneManager.LoadScene(1);
+        }
+        if (levelSelected == 1)
+        {
+            SceneManager.LoadScene(2);
+        }
+        if (levelSelected == 2)
+        {
+            SceneManager.LoadScene(3);
+        }
+        if (levelSelected == 3)
+        {
+            SceneManager.LoadScene(4);
+        }
+
+        
     }
 
 

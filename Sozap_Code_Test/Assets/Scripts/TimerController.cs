@@ -11,6 +11,8 @@ public class TimerController : MonoBehaviour
     public string savedTime;
     public Text timeCounter;
 
+    public float savedFloatTime;
+
     private TimeSpan timePlaying;
     private bool timerGoing;
 
@@ -41,6 +43,7 @@ public class TimerController : MonoBehaviour
         
         timerGoing = false;
         savedTime = currentTime;
+        savedFloatTime = elapsedTime;
     }
 
     private IEnumerator UpdateTimer()

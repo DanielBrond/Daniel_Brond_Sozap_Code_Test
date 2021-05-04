@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridMovement : MonoBehaviour
 {
+    public AudioSource audioSource;
     private MapManager mapManager;
     private bool isMoving;
     private Vector3 moveDir;
@@ -20,11 +21,13 @@ public class GridMovement : MonoBehaviour
     public Detection detection;
 
     public TileDetector[] tileDetector;
+    
 
     private void Awake()
     {
         mapManager = FindObjectOfType<MapManager>();
         tileDetector = FindObjectsOfType<TileDetector>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -132,7 +135,7 @@ public class GridMovement : MonoBehaviour
         targetPos = ogPos + direction;
 
         CheckToMoveBox();
-
+        audioSource.Play();
         while (elapsedTime < timeToMove)
         {
             
@@ -155,30 +158,25 @@ public class GridMovement : MonoBehaviour
     {
         if (detection.tempBoxUp != null)
         {
-            Debug.Log("CheckTomove");
+
             if (moveDir == Vector3.up && detection.tempBoxUp.moveUp)
             {
-                Debug.Log("BeginMove");
                 StartCoroutine(detection.tempBoxUp.MovePlayer(new Vector3(0.0f, 1.0f, 0.0f)));
             }
         }
 
         if(detection.tempBoxDown != null)
         {
-            Debug.Log("CheckTomove");
             if (moveDir == Vector3.down && detection.tempBoxDown.moveDown)
             {
-                Debug.Log("BeginMove");
                 StartCoroutine(detection.tempBoxDown.MovePlayer(new Vector3(0.0f, -1.0f, 0.0f)));
             }
         }
 
         if (detection.tempBoxLeft != null)
         {
-            Debug.Log("CheckTomove");
             if (moveDir == Vector3.left && detection.tempBoxLeft.moveLeft)
             {
-                Debug.Log("BeginMove");
                 StartCoroutine(detection.tempBoxLeft.MovePlayer(new Vector3(-1.0f, 0.0f, 0.0f)));
             }
         }
@@ -186,10 +184,8 @@ public class GridMovement : MonoBehaviour
 
         if (detection.tempBoxRight != null)
         {
-            Debug.Log("CheckTomove");
             if (moveDir == Vector3.right && detection.tempBoxRight.moveRight)
             {
-                Debug.Log("BeginMove");
                 StartCoroutine(detection.tempBoxRight.MovePlayer(new Vector3(1.0f, 0.0f, 0.0f)));
             }
         }

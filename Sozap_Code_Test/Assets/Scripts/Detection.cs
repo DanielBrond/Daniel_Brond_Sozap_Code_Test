@@ -45,7 +45,7 @@ public class Detection : MonoBehaviour
             {
                 if(item.box != null)
                 {
-                    Debug.Log("FoundDown");
+                    
                     tempBoxDown = item.box;
                 }
                 else if(item.box == null)
@@ -57,7 +57,7 @@ public class Detection : MonoBehaviour
             {
                 if (item.box != null)
                 {
-                    Debug.Log("FoundUp");
+                    
                     tempBoxUp = item.box;
                 }
                 else if (item.box == null)
@@ -69,7 +69,7 @@ public class Detection : MonoBehaviour
             {
                 if (item.box != null)
                 {
-                    Debug.Log("FoundLeft");
+
                     tempBoxLeft = item.box;
                 }
                 else if (item.box == null)
@@ -81,7 +81,6 @@ public class Detection : MonoBehaviour
             {
                 if (item.box != null)
                 {
-                    Debug.Log("FoundRight");
                     tempBoxRight = item.box;
                 }
                 else if (item.box == null)

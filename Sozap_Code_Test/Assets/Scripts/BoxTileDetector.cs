@@ -107,14 +107,13 @@ public class BoxTileDetector : MonoBehaviour
 
                 if (Mathf.Abs(Vector3.Distance(transform.position, box3.transform.position)) < distanceMargin)
                 {
-                    Debug.Log("Works");
                     box = box3;
                     used_tileDector = this;
                 }
                 else
                 {
                     counter++;
-                    Debug.Log(counter);
+                    
                 }
             }
 
