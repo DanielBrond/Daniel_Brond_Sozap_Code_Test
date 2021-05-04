@@ -14,7 +14,7 @@ public class TileData : ScriptableObject
     public bool goal;
 
 
-    public bool hasBox;
+    public bool isOccupied;
   
 
 }

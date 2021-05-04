@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &881108493
 Transform:
   m_ObjectHideFlags: 0
@@ -59,6 +59,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8763480420019624455}
   - component: {fileID: 1996509809}
+  - component: {fileID: 312486579}
+  - component: {fileID: 312486580}
+  - component: {fileID: 312486581}
+  - component: {fileID: 4952395480586288671}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -95,3 +99,66 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 0
   time: 0
+  dropDown: {fileID: 0}
+  nextLevelButton: {fileID: 0}
+--- !u!114 &312486579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936658745099606338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661e6feff9d9c4047a368f0888a6e167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 1
+  boxHolders: 0
+  occupied: 0
+--- !u!114 &312486580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936658745099606338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 366a9550ba6f2494fae310a27820372f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTime: 
+  savedTime: 
+  timeCounter: {fileID: 0}
+--- !u!114 &312486581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936658745099606338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d440780047aad4c8b6d1de992ad338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 0}
+  tileDatas:
+  - {fileID: 11400000, guid: 5173d36cc72098b4aba1b8da28a54e8e, type: 2}
+  - {fileID: 11400000, guid: 4cb45427a069c684cad109bf88c45c90, type: 2}
+  - {fileID: 11400000, guid: e0b4c71df9cb20b4cb540fcd6f6a6acc, type: 2}
+  boxes: []
+--- !u!114 &4952395480586288671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3936658745099606338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ecd18c935c5704aaeeb9d9f4b4d2f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  file: player.txt

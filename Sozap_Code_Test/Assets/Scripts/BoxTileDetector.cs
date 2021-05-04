@@ -5,28 +5,40 @@ using UnityEngine;
 public class BoxTileDetector : MonoBehaviour
 {
     private MapManager mapManager;
-    private GridMovement gridMovement;
+    public BoxMovement BoxMovement;
+    public DetectionBox detectionBox;
     public bool up;
     public bool down;
     public bool left;
     public bool right;
 
+    private const float distanceMargin = 0.001f;
+    public float timeBeforeCheck = 0.1f;
+    private int counter;
+
+    public BoxMovement box;
+    public BoxTileDetector[] tileDetectors;
+
+    public BoxTileDetector used_tileDector;
+
+
+ 
     private void Awake()
     {
-    //    mapManager = FindObjectOfType<MapManager>();
-    //    gridMovement = FindObjectOfType<GridMovement>();
+        mapManager = FindObjectOfType<MapManager>();
+       
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(DetectionCheck());
     }
 
     // Update is called once per frame
     void Update()
     {
-        //DetectionDirection();
+        DetectionDirection();
     }
 
 
@@ -34,20 +46,89 @@ public class BoxTileDetector : MonoBehaviour
     {
         if(up)
         {
-            gridMovement.moveUp = mapManager.WallBlock(transform.position);
+            if(box == null)
+            {
+                BoxMovement.moveUp = mapManager.WallBlock(transform.position);
+            }
+            else
+            {
+                BoxMovement.moveUp = false;
+            }
+            
         }
 
         if (down)
         {
-            gridMovement.moveDown = mapManager.WallBlock(transform.position);
+            if(box == null)
+            {
+                BoxMovement.moveDown = mapManager.WallBlock(transform.position);
+            }
+            else
+            {
+                BoxMovement.moveDown = false;
+            }
+            
         }
         if (left)
         {
-            gridMovement.moveLeft = mapManager.WallBlock(transform.position);
+            if(box == null)
+            {
+                BoxMovement.moveLeft = mapManager.WallBlock(transform.position);
+            }
+            else
+            {
+                BoxMovement.moveLeft = false;
+            }
+            
         }
         if (right)
         {
-            gridMovement.moveRight = mapManager.WallBlock(transform.position);
+            if(box == null)
+            {
+                BoxMovement.moveRight = mapManager.WallBlock(transform.position);
+            }
+            else
+            {
+                BoxMovement.moveRight = false;
+            }
+            
+        }
+    }
+
+    IEnumerator DetectionCheck()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(timeBeforeCheck);
+
+
+            foreach (var box3 in mapManager.boxes)
+            {
+
+                if (Mathf.Abs(Vector3.Distance(transform.position, box3.transform.position)) < distanceMargin)
+                {
+                    Debug.Log("Works");
+                    box = box3;
+                    used_tileDector = this;
+                }
+                else
+                {
+                    counter++;
+                    Debug.Log(counter);
+                }
+            }
+
+
+
+
+            if (counter == tileDetectors.Length * mapManager.boxes.Length)
+            {
+                box = null;
+                used_tileDector = null;
+
+            }
+
+            counter = 0;
         }
     }
 }

@@ -6,7 +6,7 @@ public class GridMovement : MonoBehaviour
 {
     private MapManager mapManager;
     private bool isMoving;
-
+    private Vector3 moveDir;
     public bool moveUp = true;
     public bool moveDown = true;
     public bool moveLeft = true;
@@ -16,50 +16,185 @@ public class GridMovement : MonoBehaviour
     private Vector3 ogPos, targetPos;
     private float timeToMove = 0.2f;
 
+    public BoxMovement box;
+    public Detection detection;
+
+    public TileDetector[] tileDetector;
+
     private void Awake()
     {
         mapManager = FindObjectOfType<MapManager>();
+        tileDetector = FindObjectsOfType<TileDetector>();
     }
 
     void Update()
     {
         if (Input.GetKey(KeyCode.W) && !isMoving && moveUp)
-            StartCoroutine(MovePlayer(Vector3.up));
-        if (Input.GetKey(KeyCode.A) && !isMoving && moveLeft)
-            StartCoroutine(MovePlayer(Vector3.left));
-        if (Input.GetKey(KeyCode.S) && !isMoving && moveDown)
-            StartCoroutine(MovePlayer(Vector3.down));
-        if (Input.GetKey(KeyCode.D) && !isMoving && moveRight)
-            StartCoroutine(MovePlayer(Vector3.right));
+        {
+            if (detection.tempBoxUp == null)
+            {
+                moveDir = Vector3.up;
+                StartCoroutine(MovePlayer(moveDir));
+            }
+            else
+            {
+                if (!detection.tempBoxUp.moveUp)
+                {
+                    return;
+                }
+                else
+                {
+                    moveDir = Vector3.up;
+                    StartCoroutine(MovePlayer(moveDir));
+                }
+            }
 
-      
+        }
+            
+        if (Input.GetKey(KeyCode.A) && !isMoving && moveLeft)
+        {
+            if (detection.tempBoxLeft == null)
+            {
+                moveDir = Vector3.left;
+                StartCoroutine(MovePlayer(moveDir));
+            }
+            else
+            {
+                if (!detection.tempBoxLeft.moveLeft)
+                {
+                    return;
+                }
+                else
+                {
+                    moveDir = Vector3.left;
+                    StartCoroutine(MovePlayer(moveDir));
+                }
+            }
+        }
+            
+        if (Input.GetKey(KeyCode.S) && !isMoving && moveDown)
+        {
+            if(detection.tempBoxDown == null)
+            {
+                moveDir = Vector3.down;
+                StartCoroutine(MovePlayer(moveDir));
+            }
+            else
+            {
+                if (!detection.tempBoxDown.moveDown)
+                {
+                    return;
+                }
+                else
+                {
+                    moveDir = Vector3.down;
+                    StartCoroutine(MovePlayer(moveDir));
+                }
+            }
+            
+        }
+            
+        if (Input.GetKey(KeyCode.D) && !isMoving && moveRight)
+        {
+            if (detection.tempBoxRight == null)
+            {
+                moveDir = Vector3.right;
+                StartCoroutine(MovePlayer(moveDir));
+            }
+            else
+            {
+                if (!detection.tempBoxRight.moveRight)
+                {
+                    return;
+                }
+                else
+                {
+                    moveDir = Vector3.right;
+                    StartCoroutine(MovePlayer(moveDir));
+                }
+            }
+        }
+            
+
+
+    }
+
+ 
+
+
+    public IEnumerator MovePlayer(Vector3 direction)
+    {
+        isMoving = true;
+
+        float elapsedTime = 0;
+
+        ogPos = transform.position;
+        targetPos = ogPos + direction;
+
+        CheckToMoveBox();
+
+        while (elapsedTime < timeToMove)
+        {
+            
+            transform.position = Vector3.Lerp(ogPos, targetPos, (elapsedTime / timeToMove));
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        foreach(var tile in tileDetector)
+        {
+            tile.DetectionDirection();
+        }
+        transform.position = targetPos;
+        
+        isMoving = false;
     }
 
 
-    private IEnumerator MovePlayer(Vector3 direction)
+    public void CheckToMoveBox()
     {
-        
-            isMoving = true;
-
-            float elapsedTime = 0;
-
-            ogPos = transform.position;
-            targetPos = ogPos + direction;
-
-            while (elapsedTime < timeToMove)
+        if (detection.tempBoxUp != null)
+        {
+            Debug.Log("CheckTomove");
+            if (moveDir == Vector3.up && detection.tempBoxUp.moveUp)
             {
-                transform.position = Vector3.Lerp(ogPos, targetPos, (elapsedTime / timeToMove));
-                elapsedTime += Time.deltaTime;
-
-                yield return null;
+                Debug.Log("BeginMove");
+                StartCoroutine(detection.tempBoxUp.MovePlayer(new Vector3(0.0f, 1.0f, 0.0f)));
             }
+        }
 
-            transform.position = targetPos;
+        if(detection.tempBoxDown != null)
+        {
+            Debug.Log("CheckTomove");
+            if (moveDir == Vector3.down && detection.tempBoxDown.moveDown)
+            {
+                Debug.Log("BeginMove");
+                StartCoroutine(detection.tempBoxDown.MovePlayer(new Vector3(0.0f, -1.0f, 0.0f)));
+            }
+        }
 
-            isMoving = false;
+        if (detection.tempBoxLeft != null)
+        {
+            Debug.Log("CheckTomove");
+            if (moveDir == Vector3.left && detection.tempBoxLeft.moveLeft)
+            {
+                Debug.Log("BeginMove");
+                StartCoroutine(detection.tempBoxLeft.MovePlayer(new Vector3(-1.0f, 0.0f, 0.0f)));
+            }
+        }
 
-     
+
+        if (detection.tempBoxRight != null)
+        {
+            Debug.Log("CheckTomove");
+            if (moveDir == Vector3.right && detection.tempBoxRight.moveRight)
+            {
+                Debug.Log("BeginMove");
+                StartCoroutine(detection.tempBoxRight.MovePlayer(new Vector3(1.0f, 0.0f, 0.0f)));
+            }
+        }
 
 
+        
     }
 }

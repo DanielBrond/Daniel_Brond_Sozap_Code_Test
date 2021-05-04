@@ -10,23 +10,31 @@ public class TileDetector : MonoBehaviour
     public bool down;
     public bool left;
     public bool right;
+    private const float distanceMargin = 0.001f;
+    public float timeBeforeCheck = 0.1f;
 
-    private void Awake()
+    
+    public BoxMovement box;
+    public TileDetector[] tileDetectors;
+
+    public TileDetector used_tileDector;
+    private int counter;
+
+    public void OnEnable()
     {
         mapManager = FindObjectOfType<MapManager>();
+       
+    }
+    private void Awake()
+    {
+      
         gridMovement = FindObjectOfType<GridMovement>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        DetectionDirection();
+        StartCoroutine(DetectionCheck());
     }
 
 
@@ -49,6 +57,44 @@ public class TileDetector : MonoBehaviour
         if (right)
         {
             gridMovement.moveRight = mapManager.WallBlock(transform.position);
+        }
+    }
+
+
+    IEnumerator DetectionCheck()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(timeBeforeCheck);
+
+           
+                foreach (var box3 in mapManager.boxes)
+                {
+
+                    if (Mathf.Abs(Vector3.Distance(transform.position, box3.transform.position)) < distanceMargin)
+                    {
+                        Debug.Log("Works");
+                        box = box3;
+                        used_tileDector = this;
+                    }
+                    else
+                    {
+                        counter++;
+                        Debug.Log(counter);
+                    }
+                }
+
+
+            
+
+            if (counter == tileDetectors.Length * mapManager.boxes.Length)
+            {
+                box = null;
+                used_tileDector = null;
+
+            }
+
+            counter = 0;
         }
     }
 }

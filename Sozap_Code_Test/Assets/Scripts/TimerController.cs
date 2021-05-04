@@ -38,8 +38,9 @@ public class TimerController : MonoBehaviour
 
     public void EndTimer()
     {
-        savedTime = currentTime;
+        
         timerGoing = false;
+        savedTime = currentTime;
     }
 
     private IEnumerator UpdateTimer()

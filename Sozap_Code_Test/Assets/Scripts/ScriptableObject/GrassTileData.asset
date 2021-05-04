@@ -17,4 +17,4 @@ MonoBehaviour:
   wall: 1
   boxTarget: 0
   goal: 0
-  hasBox: 0
+  isOccupied: 0

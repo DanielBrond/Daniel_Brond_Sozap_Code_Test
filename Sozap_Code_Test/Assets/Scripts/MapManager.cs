@@ -13,17 +13,23 @@ public class MapManager : MonoBehaviour
 
     private Dictionary<TileBase, TileData> dataFromTiles;
 
+    public BoxMovement[] boxes;
 
     private void Awake()
     {
         dataFromTiles = new Dictionary<TileBase, TileData>();
         foreach (var tileData in tileDatas)
         {
-            foreach(var tile in tileData.tiles)
+            foreach (var tile in tileData.tiles)
             {
                 dataFromTiles.Add(tile, tileData);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        boxes = FindObjectsOfType<BoxMovement>();
     }
 
     public bool WallBlock(Vector2 worldPosition)
@@ -40,27 +46,8 @@ public class MapManager : MonoBehaviour
         bool blocked = dataFromTiles[tile].wall;
         return blocked;
 
-        
+
     }
-
-    public bool goal(Vector2 worldPosition)
-    {
-        Vector3Int gridPos = map.WorldToCell(worldPosition);
-
-        TileBase tile = map.GetTile(gridPos);
-        if (tile == null)
-        {
-            return false;
-        }
-
-
-        bool blocked = dataFromTiles[tile].goal;
-        return blocked;
-
-        
-    }
-
-   
 
 
 }

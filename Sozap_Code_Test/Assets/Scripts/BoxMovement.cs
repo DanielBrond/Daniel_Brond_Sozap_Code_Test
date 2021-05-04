@@ -1,30 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class BoxMovement : MonoBehaviour
 {
+    
+    private MapManager mapManager;
+    private GridMovement playerObj;
+
+    public DetectionBox boxDetection;
+
+
     private bool isMoving;
     private Vector3 ogPos, targetPos;
     private float timeToMove = 0.2f;
 
+    public bool moveUp = true;
+    public bool moveDown = true;
+    public bool moveLeft = true;
+    public bool moveRight = true;
+
+    public BoxTileDetector[] tileDetector;
+    private float distanceMargin;
+    private float timeBeforeCheck;
+
+    private void Awake()
+    {
+        mapManager = FindObjectOfType<MapManager>(); 
+        
+    }
+
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.W) && !isMoving)
-            StartCoroutine(MovePlayer(Vector3.up));
-        if (Input.GetKey(KeyCode.A) && !isMoving)
-            StartCoroutine(MovePlayer(Vector3.left));
-        if (Input.GetKey(KeyCode.S) && !isMoving)
-            StartCoroutine(MovePlayer(Vector3.down));
-        if (Input.GetKey(KeyCode.D) && !isMoving)
-            StartCoroutine(MovePlayer(Vector3.right));
+
+
 
     }
 
 
-    private IEnumerator MovePlayer(Vector3 direction)
+    public IEnumerator MovePlayer(Vector3 direction)
     {
+        
         isMoving = true;
 
         float elapsedTime = 0;
@@ -44,4 +62,9 @@ public class BoxMovement : MonoBehaviour
 
         isMoving = false;
     }
+
+
+
+
+
 }
